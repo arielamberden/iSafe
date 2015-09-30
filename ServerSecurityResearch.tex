@@ -1,0 +1,61 @@
+\documentclass[10pt]{article}
+\usepackage{url}
+\usepackage{enumitem}
+\setlist[enumerate]{label*=\arabic*.}
+
+\begin{document}
+
+\title{Server Security Research}
+\author{Ariel Amberden}
+\date{9/29/2015}
+\maketitle
+
+\section*{Apple's iMessage Encryption and Certificate Transparency} 
+Post "Let's talk about iMessage (again)" obviates the need for data on the server to be kept confidential from the controller of the server.  This requires encryption of data kept on the server and public keys to be maintained in a transparent way.  Green describes Apple's encryption of iMessage as "good enough" in that it "makes it clear that iMessge encryption is 'end-to-end' and that decryption keys never leave the device." \cite{iMessage}  For the time being, encryption for communication and storage on the iSafe server will implement Apple-style encryption, "messages are encryption with a combination of 1280-bit RSA public key encryption and 128-bit AES, and signed with ECDSA under a 256-bit NIST curve." \cite{iMessage}  To prevent key substitution attacks, Green brings up CONIKS as the "most complete published variant of [Certificate Transparency]." \cite{iMessage}  Google has a Certificate Transparency project that "[provides] an open framework for monitoring and auditing SSL certificates in nearly real time. Specifically, Certificate Transparency makes it possible to detect SSL certificates that have been mistakenly issued by a certificate authority or maliciously acquired from an otherwise unimpeachable certificate authority. It also makes it possible to identify certificate authorities that have gone rogue and are maliciously issuing certificates." \cite{certtrans}  The group's website includes information on how to implement certificate transparency in TLS handshakes and how to verify that your server is responding with Certificate Transparency information.
+
+\section*{OpenSSL TLS Protocol}
+OpenSSL will be used to implement the TLS protocol for all network traffic between the app on the device and the server.  TLS 1.2 is the most recent version.  "A connection always starts with a handshake between a client and a server. This handshake is intended to provide a secret key to both client and server that will be used to cipher the flow. ... The initial handshake can provide server authentication, client authentication or no authentication at all." \cite{openssl}  Server and client authentication will be provided for iSafe TLS implementation through trusted Certificate Authorities.  There are several tutorial pages online demonstrating authenticated TLS implementations for the intended C\# server platform.  Support for secure transport is supported on iOS 5.0 and later. \cite{macdevlib}
+
+\section*{Zero Knowledge Proof}
+Green presents a zero knowledge problem framed in a deal in which Google must provide a three-colored graph for cell-tower coverage in which the client must be sure that the solution is correct and Google must convince the client without revealing anything about the solution. \cite{zeroknow} In this context, a zero-knowledge protocol must have the following three properties \cite{zeroknow},
+\begin{enumerate}
+    \item Completeness. If Google is telling the truth, then they will eventually convince me (at least with high probability).
+    \item Soundness. Google can only convince me if they're actually telling the truth. 
+    \item Zero-knowledgeness. (Yes it's really called this.) I don't learn anything else about Google's solution.
+\end{enumerate}
+The need for Zero Knowledge is clear since, "Even as late as 2014, highly vulnerable client-to-server connections for services like Yahoo Mail were routinely transmitted in cleartext -- meaning that they weren't just vulnerable to the NSA, but also to everyone on your local wireless network. And web-based connections were the good news. Even if you carefully checked your browser connections for HTTPS usage, proprietary extensions and mobile services would happily transmit data such as your contact list in the clear. If you noticed and shut down all of these weaknesses, it still wasn't enough -- tech companies would naively transmit the same data through vulnerable, unencrypted inter-datacenter connections where the NSA could scoop them up yet again." \cite{networkhostile}
+
+\section*{List of security practices to be implemented}
+\begin{enumerate}
+\item Encryption
+	\begin{enumerate}
+	\item Encrypt using 1280-bit RSA public key encryption, 128-bit AES, signed with ECDSA under a 256-bit NIST curve
+	\item Apply encryption at phone app level before sending to server.  Only the user and financial institution connected with their account should have access to the private keys.
+	\item Implement Zero Knowledge by encrypting data before it leaves the iSafe app, never storing passwords on the server, and prevent server knowledge of meta-data.
+	\item Zero Knowledge prevents servers from storing or transmitting data in clear text so data would retain encryption in server breaches
+	\end{enumerate}
+\item OpenSSL TLS Protocol
+	\begin{enumerate}
+	\item SSLv2 and SSLv3 must be disabled
+	\item Control protocol downgrade
+	\item Implement TLS 1.2 to handle secure communication with server
+		\begin{enumerate}
+			\item Handshake between client and server to provide private key to both, authenticate both server and client
+			\item Implement AES-128 as the cipher suite selection
+		\end{enumerate}
+	\end{enumerate}
+\item Certificate Transparency
+	\begin{enumerate}
+	\item Implement support of X509v3 Extension, TLS Extension, and OCSP Stapling for Signed Certificate Timestamp (SCT) in the TLS handshake
+	\item Key substitution attacks
+	\item Website spoofing attacks
+	\item Server impersonation attacks
+	\item Man-in-the-middle attacks
+	\end{enumerate}
+\end{enumerate}
+
+
+
+\bibliography{ServerSecurityResearch}
+\bibliographystyle{ieeetr}
+\end{document}

@@ -1,0 +1,34 @@
+\begin{thebibliography}{1}
+
+\bibitem{iMessage}
+M.~Green, ``Let's talk about imessage (again).'' A Few Thoughts on
+  Cryptographic Engineering, Blog, 2014.
+\newblock
+  \url{http://blog.cryptographyengineering.com/2015/09/lets-talk-about-imessage-again.html}.
+
+\bibitem{certtrans}
+G.~C.~T. team and contributors, ``Certificate transparency.'' None, Unknown.
+\newblock \url{http://www.certificate-transparency.org/}.
+
+\bibitem{openssl}
+OpenSSL, ``Ssl and tsl protocols.'' Wiki, Unknown.
+\newblock \url{https://wiki.openssl.org/index.php/SSL_and_TLS_Protocols}.
+
+\bibitem{macdevlib}
+Apple, ``Cryptographic services guide.'' Mac Developer Library, 2014.
+\newblock
+  \url{https://developer.apple.com/library/mac/documentation/Security/Conceptual/cryptoservices/SecureNetworkCommunicationAPIs/SecureNetworkCommunicationAPIs.html}.
+
+\bibitem{zeroknow}
+M.~Green, ``Zero knowledge proofs: An illustrated primer.'' A Few Thoughts on
+  Cryptographic Engineering, Blog, 2014.
+\newblock
+  \url{http://blog.cryptographyengineering.com/2014/11/zero-knowledge-proofs-illustrated-primer.html}.
+
+\bibitem{networkhostile}
+M.~Green, ``The network is hostile.'' A Few Thoughts on Cryptographic
+  Engineering, Blog, 2014.
+\newblock
+  \url{http://blog.cryptographyengineering.com/2015/08/the-network-is-hostile.html}.
+
+\end{thebibliography}
