@@ -47,26 +47,26 @@ During research from task 2, standard EMVCo Payment Tokenisation for e-commerce 
   3. Implement Token Service Provider server module including two-factor authentication(EC 11/11)
   4. Implement Issuer server module (11/4)
 Class Sketch:
-  iSafe User (iPhone)
-  Description: iPhone app, every user can be either customer, merchant, or both
-  Functions: create new user, request payment (merchant), approve amount (customer), request token (merchant), confirm payment (customer - after receiving confirmation from acquirer)
-  Data:
-      Customer: user provided: name, address, credit card number, credit card type, credit card cvv
-                       assigned: primary account number (assigned by issuer), assurance level (result of ID&V process), unique user ID
-      Merchant: user provided: name, address, checking account number, checking account routing number, checking account institution
-                       assigned: primary account number (assigned by issuer), assurance level (result of ID&V process), unique merchant ID
+  1. iSafe User (iPhone)
+    Description: iPhone app, every user can be either customer, merchant, or both
+    Functions: create new user, request payment (merchant), approve amount (customer), request token (merchant), confirm payment (customer - after receiving confirmation from acquirer)
+    Data:
+        Customer: user provided: name, address, credit card number, credit card type, credit card cvv
+                  assigned: primary account number (assigned by issuer), assurance level (result of ID&V process), unique user ID
+        Merchant: user provided: name, address, checking account number, checking account routing number, checking account institution
+                  assigned: primary account number (assigned by issuer), assurance level (result of ID&V process), unique merchant ID
+
+  2. Acquirer (server module 1)
+    Description: simulates software run by a bank, credit union, etc., must be pre-loaded with dummy accounts for testing purposes since we cannot connect to a real bank system
+    Functions: authorize, capture, clearing, and exception processing, approve payment (sends request to payment network)
+    Data: table of all data collected from iSafe app, table recording transactions: merchant/customer ids, amount, date, and token data
   
-  Acquirer (server module 1)
-  Description: simulates software run by a bank, credit union, etc., must be pre-loaded with dummy accounts for testing purposes since we cannot connect to a real bank system
-  Functions: authorize, capture, clearing, and exception processing, approve payment (sends request to payment network)
-  Data: table of all data collected from iSafe app, table recording transactions: merchant/customer ids, amount, date, and token data
+  3. Payment Network & Token Service Provider (server module 2)
+    Description: handles token vault, the payment network will not be implemented (transactions will be stored in Acquirer and Issuer databases since we do not have access to a payment network), must ensure that BINs (Bank Identification Numbers) do not overlap with PANs (primary account numbers)
+    Functions: register new token requester, issue token, verify token, verify user (iPhone finger print)
+    Data: token table containing data from table 4-1
   
-  Payment Network & Token Service Provider (server module 2)
-  Description: handles token vault, the payment network will not be implemented (transactions will be stored in Acquirer and Issuer databases since we do not have access to a payment network), must ensure that BINs (Bank Identification Numbers) do not overlap with PANs (primary account numbers)
-  Functions: register new token requester, issue token, verify token, verify user (iPhone finger print)
-  Data: token table containing data from table 4-1
-  
-  Issuer (server module 3)
-  Description: mimic card issuers, for our purposes will only record transactions, pre-load with dummy cardholders
-  Functions: CRUD (create, retrieve, update, delete) for transactions table
-  Data: token data, customer and merchant ids, amount
+  4. Issuer (server module 3)
+    Description: mimic card issuers, for our purposes will only record transactions, pre-load with dummy cardholders
+    Functions: CRUD (create, retrieve, update, delete) for transactions table
+    Data: token data, customer and merchant ids, amount
