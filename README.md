@@ -46,7 +46,8 @@ During research from task 2, standard EMVCo Payment Tokenisation for e-commerce 
   2. Implement Acquirer server module (EC 11/4)
   3. Implement Token Service Provider server module including two-factor authentication(EC 11/11)
   4. Implement Issuer server module (11/4)
-Class Sketch:
+  5. 
+# Class Sketch: 10/21
   1. iSafe User (iPhone)
     Description: iPhone app, every user can be either customer, merchant, or both
     Functions: create new user, request payment (merchant), approve amount (customer), request token (merchant), confirm payment (customer - after receiving confirmation from acquirer)
